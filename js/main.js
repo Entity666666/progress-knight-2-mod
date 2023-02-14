@@ -13,30 +13,30 @@ var gameData = {
     rebirthTwoCount: 0,
 	rebirthThreeCount: 0,
 
-    currentJob: null,
-    currentSkill: null,
-    currentProperty: null,
-    currentMisc: null,
+    currentJob: "",
+    currentSkill: "",
+    currentProperty: "",
+    currentMisc: "",
 
     settings: {
         stickySidebar: false
     }
-}
+};
 
-var tempData = {}
+var tempData = {};
 
-var skillWithLowestMaxXp = null
+var skillWithLowestMaxXp = null;
 
-const autoPromoteElement = document.getElementById("autoPromote")
-const autoLearnElement = document.getElementById("autoLearn")
+const autoPromoteElement = document.getElementById("autoPromote");
+const autoLearnElement = document.getElementById("autoLearn");
 
-const updateSpeed = 20
+const updateSpeed = 20;
 
-const baseLifespan = 365 * 70
+const baseLifespan = 365 * 70;
 
-const baseGameSpeed = 4
+const baseGameSpeed = 4;
 
-const permanentUnlocks = ["Scheduling", "Shop", "Automation", "Quick task display"]
+const permanentUnlocks = ["Scheduling", "Shop", "Automation", "Quick task display"];
 
 const jobBaseData = {
     "Beggar": {name: "Beggar", maxXp: 50, income: 5},
@@ -84,8 +84,7 @@ const jobBaseData = {
 	
 	
 	
-}
-
+};
 const skillBaseData = {
     "Concentration": {name: "Concentration", maxXp: 100, effect: 0.01, description: "Ability XP"},
     "Productivity": {name: "Productivity", maxXp: 100, effect: 0.01, description: "Class XP"},
@@ -136,8 +135,7 @@ const skillBaseData = {
 	"Higher Dimensions": {name: "Higher Dimensions", maxXp: 100, effect: 0.001, description: "Longer Lifespan"},
 	"Epiphany": {name: "Epiphany", maxXp: 100, effect: 0.012, description: "Galactic Council XP"},
 
-}
-
+};
 const itemBaseData = {
     "Homeless": {name: "Homeless", expense: 0, effect: 1},
     "Tent": {name: "Tent", expense: 15, effect: 1.4},
@@ -147,14 +145,14 @@ const itemBaseData = {
     "Large House": {name: "Large House", expense: 25000, effect: 12},
     "Small Palace": {name: "Small Palace", expense: 300000, effect: 25},
     "Grand Palace": {name: "Grand Palace", expense: 5000000, effect: 60},
-	"Town Ruler": {name: "Town Ruler", expense: 35000000, effect: 120},
-	"City Ruler": {name: "City Ruler", expense: 1100000000, effect: 500},
-	"Nation Ruler": {name: "Nation Ruler", expense: 13000000000, effect: 1200},
-	"Pocket Dimension": {name: "Pocket Dimension", expense: 49000000000, effect: 5000},
-    "Void Realm": {name: "Void Realm", expense: 121000000000, effect: 15000},
-	"Void Universe": {name: "Void Universe", expense: 2000000000000, effect: 30000},
-	"Astral Realm": {name: "Astral Realm", expense: 160000000000000, effect: 150000},
-	"Galactic Throne": {name: "Galactic Throne", expense: 5000000000000000, effect: 300000},
+	"Town Ruler": {name: "Town Ruler", expense: 3500, effect: 120},
+	"City Ruler": {name: "City Ruler", expense: 11000, effect: 500},
+	"Nation Ruler": {name: "Nation Ruler", expense: 130000, effect: 1200},
+	"Pocket Dimension": {name: "Pocket Dimension", expense: 490000, effect: 5000},
+    "Void Realm": {name: "Void Realm", expense: 121000, effect: 15000},
+	"Void Universe": {name: "Void Universe", expense: 200000, effect: 30000},
+	"Astral Realm": {name: "Astral Realm", expense: 1600000, effect: 150000},
+	"Galactic Throne": {name: "Galactic Throne", expense: 5000000, effect: 300000},
 
 
     "Book": {name: "Book", expense: 10, effect: 1.5, description: "Ability XP"},
@@ -165,19 +163,18 @@ const itemBaseData = {
     "Sapphire Charm": {name: "Sapphire Charm", expense: 50000, effect: 3, description: "Magic XP"},
     "Study Desk": {name: "Study Desk", expense: 1000000, effect: 2, description: "Ability XP"},
     "Library": {name: "Library", expense: 10000000, effect: 2, description: "Ability XP"},
-	"Observatory": {name: "Observatory", expense: 140000000, effect: 5, description: "Magic XP"},
-	"Mind's Eye": {name: "Mind's Eye", expense: 3250000000, effect: 10, description: "Fundamentals XP"},
-	"Void Necklace": {name: "Void Necklace", expense: 28050000000, effect: 3, description: "Void Manipulation XP"},
-    "Void Armor": {name: "Void Armor", expense: 197050000000, effect: 3, description: "The Void XP"},
-	"Void Blade": {name: "Void Blade", expense: 502050000000, effect: 3, description: "Ability XP"},
-	"Void Orb": {name: "Void Orb", expense: 1202050000000, effect: 3, description: "Void Manipulation XP"},
-	"Void Dust": {name: "Void Dust", expense: 25002050000000, effect: 3, description: "The Void XP"},
-	"Celestial Robe": {name: "Celestial Robe", expense: 300002050000000, effect: 5, description: "Galactic Council XP"},
-	"Universe Fragment": {name: "Universe Fragment", expense: 18500002050000000, effect: 3, description: "Ability XP"},
-	"Multiverse Fragment": {name: "Multiverse Fragment", expense: 200500002050000000, effect: 5, description: "Happiness"},
+	"Observatory": {name: "Observatory", expense: 1400, effect: 5, description: "Magic XP"},
+	"Mind's Eye": {name: "Mind's Eye", expense: 32500, effect: 10, description: "Fundamentals XP"},
+	"Void Necklace": {name: "Void Necklace", expense: 28050, effect: 3, description: "Void Manipulation XP"},
+    "Void Armor": {name: "Void Armor", expense: 19705000, effect: 3, description: "The Void XP"},
+	"Void Blade": {name: "Void Blade", expense: 50, effect: 3, description: "Ability XP"},
+	"Void Orb": {name: "Void Orb", expense: 120205, effect: 3, description: "Void Manipulation XP"},
+	"Void Dust": {name: "Void Dust", expense: 25002050, effect: 3, description: "The Void XP"},
+	"Celestial Robe": {name: "Celestial Robe", expense: 30000205, effect: 5, description: "Galactic Council XP"},
+	"Universe Fragment": {name: "Universe Fragment", expense: 185000020, effect: 3, description: "Ability XP"},
+	"Multiverse Fragment": {name: "Multiverse Fragment", expense: 2005002050, effect: 5, description: "Happiness"},
 
-}
-
+};
 const jobCategories = {
     "Common work"            : ["Beggar", "Farmer", "Fisherman", "Miner", "Blacksmith", "Merchant"],
     "Military"               : ["Squire", "Footman", "Veteran footman", "Centenary", "Knight", "Veteran Knight", "Holy Knight", "Lieutenant General"],
@@ -185,8 +182,7 @@ const jobCategories = {
 	"The Void"               : ["Corrupted", "Void Slave", "Void Fiend", "Abyss Anomaly", "Void Wraith", "Void Reaver", "Void Lord", "Abyss God"],
     "Galactic Council"       : ["Eternal Wanderer", "Nova", "Sigma Proioxis", "Acallaris", "One Above All"]
 
-}
-
+};
 const skillCategories = {
     "Fundamentals"           : ["Concentration", "Productivity", "Bargaining", "Meditation"],
     "Combat"                 : ["Strength", "Battle Tactics", "Muscle Memory"],
@@ -196,13 +192,11 @@ const skillCategories = {
 	"Celestial Powers"       : ["Cosmic Longevity", "Cosmic Recollection", "Essence Collector", "Galactic Command"],
 	"Almightiness"           : ["Yin Yang", "Parallel Universe", "Higher Dimensions", "Epiphany"]
 	
-}
-
+};
 const itemCategories = {
     "Properties"             : ["Homeless", "Tent", "Wooden Hut", "Cottage", "House", "Large House", "Small Palace", "Grand Palace", "Town Ruler", "City Ruler", "Nation Ruler", "Pocket Dimension", "Void Realm", "Void Universe", "Astral Realm", "Galactic Throne"],
     "Misc"                   : ["Book", "Dumbbells", "Personal Squire", "Steel Longsword", "Butler", "Sapphire Charm", "Study Desk", "Library", "Observatory", "Mind's Eye", "Void Necklace", "Void Armor", "Void Blade", "Void Orb", "Void Dust", "Celestial Robe", "Universe Fragment", "Multiverse Fragment"]
-}
-
+};
 const headerRowColors = {
     "Common work": "#55a630",
     "Military": "#e63946",
@@ -218,8 +212,7 @@ const headerRowColors = {
 	"Celestial Powers": "#D5C010",
     "Properties": "#219ebc",
     "Misc": "#b56576",
-}
-
+};
 const tooltips = {
 	//Common work
     "Beggar": "Struggle day and night for a couple of copper coins. It feels like you are at the brink of death each day.",
@@ -357,55 +350,50 @@ const tooltips = {
 	"Celestial Robe": "The most powerful and essential equipment of any Celestial. Acts as a source of infinite power.",
 	"Universe Fragment": "From the time the universe was born. Can create another small universes.",
 	"Multiverse Fragment": "Came into existance long before our universe was created, this strange looking object with no shape radiates unlimited energy.",
-}
-
+};
 const units = ["", "k", "M", "B", "T", "q", "Q", "Sx", "Sp", "Oc", "Nv", "Vg", "Uv", "Dv", "Tv", "Qt", "Qv", "Sv", "Oc", "Nd", "Tg", "OMG"];
+const jobTabButton = document.getElementById("jobTabButton");
 
-const jobTabButton = document.getElementById("jobTabButton")
-
-function getBaseLog(x, y) {
-    return Math.log(y) / Math.log(x);
-}
-  
+function getBaseLog(x, y) {return Math.log(y) / Math.log(x);}
 function getBindedTaskEffect(taskName) {
-    var task = gameData.taskData[taskName]
-    return task.getEffect.bind(task)
+    var task = gameData.taskData[taskName];
+    return task.getEffect.bind(task);
 }
 
 function getBindedItemEffect(itemName) {
-    var item = gameData.itemData[itemName]
-    return item.getEffect.bind(item)
+    var item = gameData.itemData[itemName];
+    return item.getEffect.bind(item);
 }
 
 function addMultipliers() {
     for (taskName in gameData.taskData) {
-        var task = gameData.taskData[taskName]
+        var task = gameData.taskData[taskName];
 
-        task.xpMultipliers = []
-        if (task instanceof Job) task.incomeMultipliers = []
+        task.xpMultipliers = [];
+        if (task instanceof Job) task.incomeMultipliers = [];
 
-        task.xpMultipliers.push(task.getMaxLevelMultiplier.bind(task))
-        task.xpMultipliers.push(getHappiness)
-        task.xpMultipliers.push(getBindedTaskEffect("Dark Influence"))
-        task.xpMultipliers.push(getBindedTaskEffect("Demon Training"))
-		task.xpMultipliers.push(getBindedTaskEffect("Void Influence"))
-		task.xpMultipliers.push(getBindedTaskEffect("Parallel Universe"))
+        task.xpMultipliers.push(task.getMaxLevelMultiplier.bind(task));
+        task.xpMultipliers.push(getHappiness);
+        task.xpMultipliers.push(getBindedTaskEffect("Dark Influence"));
+        task.xpMultipliers.push(getBindedTaskEffect("Demon Training"));
+		task.xpMultipliers.push(getBindedTaskEffect("Void Influence"));
+		task.xpMultipliers.push(getBindedTaskEffect("Parallel Universe"));
 
         if (task instanceof Job) {
             task.incomeMultipliers.push(task.getLevelMultiplier.bind(task))
-            task.incomeMultipliers.push(getBindedTaskEffect("Demon's Wealth"))
-            task.xpMultipliers.push(getBindedTaskEffect("Productivity"))
-			task.xpMultipliers.push(getBindedTaskEffect("Dark Knowledge"))
-            task.xpMultipliers.push(getBindedItemEffect("Personal Squire"))    
+            task.incomeMultipliers.push(getBindedTaskEffect("Demon's Wealth"));
+            task.xpMultipliers.push(getBindedTaskEffect("Productivity"));
+			task.xpMultipliers.push(getBindedTaskEffect("Dark Knowledge"));
+            task.xpMultipliers.push(getBindedItemEffect("Personal Squire"));
         } else if (task instanceof Skill) {
-            task.xpMultipliers.push(getBindedTaskEffect("Concentration"))
-            task.xpMultipliers.push(getBindedItemEffect("Book"))
-            task.xpMultipliers.push(getBindedItemEffect("Study Desk"))
-            task.xpMultipliers.push(getBindedItemEffect("Library"))
-			task.xpMultipliers.push(getBindedItemEffect("Void Blade"))
-			task.xpMultipliers.push(getBindedTaskEffect("Void Symbiosis"))
-			task.xpMultipliers.push(getBindedItemEffect("Universe Fragment"))
-			task.xpMultipliers.push(getBindedTaskEffect("Evil Incarnate"))
+            task.xpMultipliers.push(getBindedTaskEffect("Concentration"));
+            task.xpMultipliers.push(getBindedItemEffect("Book"));
+            task.xpMultipliers.push(getBindedItemEffect("Study Desk"));
+            task.xpMultipliers.push(getBindedItemEffect("Library"));
+			task.xpMultipliers.push(getBindedItemEffect("Void Blade"));
+			task.xpMultipliers.push(getBindedTaskEffect("Void Symbiosis"));
+			task.xpMultipliers.push(getBindedItemEffect("Universe Fragment"));
+			task.xpMultipliers.push(getBindedTaskEffect("Evil Incarnate"));
 			
 
 		
